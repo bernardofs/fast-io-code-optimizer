@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
-using namespace std;
+// using namespace std;
 
-#define debug(x) cerr << #x " = " << x << endl
+// #define debug(x) cerr << #x " = " << x << endl
 
 // read two consecutive char
 char readCharacter;
@@ -39,7 +39,7 @@ bool readChar(T &x) {
 }
 
 bool readCharArray(char*& x) {
-  string y;
+  std::string y;
   if(readString(y) == false)
     return false;
   x = new char[(int)y.size() + 1];
@@ -107,7 +107,7 @@ bool readVar(char*& x) {
   return readCharArray(x);
 }
 
-bool readVar(string &x) {
+bool readVar(std::string &x) {
   return readString(x);    
 }
 
@@ -145,7 +145,7 @@ void writeCharArray(char *x) {
     putchar(*x++);
 }
 
-void writeString(string x) {
+void writeString(std::string x) {
   for(char c: x) 
     putchar(c);
 }
@@ -203,7 +203,7 @@ void writeVar(char *x) {
   writeCharArray(x);
 }
 
-void writeVar(string x) {
+void writeVar(std::string x) {
   writeString(x);    
 }
 
