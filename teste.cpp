@@ -22,6 +22,7 @@ template <typename T>
 bool readString(T &x) {
   x = "";
   if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
+  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
   if(readCharacter == EOF) return remaining = false, false;
   while ((readCharacter != '\n' && readCharacter != '\t' && readCharacter != ' ' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
   return true;
@@ -29,9 +30,10 @@ bool readString(T &x) {
 
 template <typename T>
 bool readChar(T &x) {
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
+  if(!remaining) readCharacter = getchar(); else remaining = false;
   if(readCharacter == EOF) return remaining = false, false;
   while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
+  remaining = false;
   x = readCharacter;
   return true;
 }
@@ -101,7 +103,7 @@ bool readVar(char &x) {
   return readChar(x);
 }
 
-bool readVar(char *x) {
+bool readVar(char*& x) {
   return readCharArray(x);
 }
 
@@ -122,7 +124,7 @@ bool readVar(long double &x) {
 }
 
 template <typename T>
-void writeInt(T &x) {
+void writeInt(T x) {
   if (x < 0) {putchar('-'); x = -x; }
   char writeBuffer[20], *writePtr = writeBuffer;
   do {
@@ -138,7 +140,7 @@ void writeChar(char x) {
   putchar(x);
 }
 
-void writeString(char *x) {
+void writeCharArray(char *x) {
   while(*x != '\0')
     putchar(*x++);
 }
@@ -157,10 +159,172 @@ void writeDouble(T &x) {
   printf("%lf", (double)x);
 }
 
+void writeVar(bool &x) {
+  writeInt(x);
+}
+
+void writeVar(short int &x) {
+  writeInt(x);    
+}
+
+void writeVar(int &x) {
+  writeInt(x);    
+}
+
+void writeVar(long int &x) {
+  writeInt(x);    
+}
+
+void writeVar(long long int &x) {
+  writeInt(x);    
+}
+
+void writeVar(unsigned short int &x) {
+  writeInt(x);    
+}
+
+void writeVar(unsigned int &x) {
+  writeInt(x);    
+}
+
+void writeVar(unsigned long &x) {
+  writeInt(x);    
+}
+
+void writeVar(unsigned long long &x) {
+  writeInt(x);    
+}
+
+void writeVar(char &x) {
+  writeChar(x);
+}
+
+void writeVar(char *x) {
+  writeCharArray(x);
+}
+
+void writeVar(string &x) {
+  writeString(x);    
+}
+
+void writeVar(float &x) {
+  writeFloat(x);
+}
+
+void writeVar(double &x) {
+  writeDouble(x);
+}
+
+void writeVar(long double &x) {
+  writeDouble(x);
+}
+
 signed main() {
 
-  char *x;
-  readCharArray(x);
-  writeString(x);
+  // {
+  //   bool x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   short int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   long int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   long long int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   unsigned short int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   unsigned int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   unsigned long int x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   unsigned long long x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  {
+    char x;
+    readVar(x);
+    writeVar(x);
+    cout << endl;
+  }
+
+
+  {
+    char *x;
+    readVar(x);
+    writeVar(x);
+    cout << endl;
+  }
+
+  // {
+  //   string x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   float x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   double x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
+
+  // {
+  //   long double x;
+  //   readVar(x);
+  //   writeVar(x);
+  //   cout << endl;
+  // }
 
 }
