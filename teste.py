@@ -13,7 +13,7 @@ def removeSpacesFromVar(name):
 	return name[i : j + 1]	
 
 def getCinEntries(text):
-	r = re.findall(r'cin[\s\t]*>>[^;,]*[;,]', text)
+	r = re.findall(r'cin[\s\t\n]*>>[^;,]*[;,]', text)
 	return r
 
 def replaceInput(text, cinEntries):
@@ -32,12 +32,24 @@ def replaceInput(text, cinEntries):
 	return text
 
 def getCoutEntries(text):
-	r = re.findall(r'cout[\s\t]*<<[^;,]*[;,]', text)
+	r = re.findall(r'cout[\s\t\n]*<<[^;,]*[;,]', text)
 	return r
+
+def removeDeSync(text):
+	r = []
+	r += re.findall(r'[{;,][^{;,]*sync_with_stdio[^;,]*[;,]', text)
+	r += re.findall(r'[{;,][^{;,]*cin[\s\t\n]*.[\s\t\n]*tie[^;,]*[;,]', text)
+	r += re.findall(r'[{;,][^{;,]*cout[\s\t\n]*.[\s\t\n]*tie[^;,]*[;,]', text)
+
+	for entry in r:
+		entry = entry[1:]
+		text = text.replace(entry, '')
+
+	return text
+
 
 def replaceOutput(text, coutEntries):
 	for entry in coutEntries:
-		print (entry)
 		aux = ''
 		last = entry[-1]
 		# delete semicolon (;) or comma (,) from line
@@ -45,7 +57,6 @@ def replaceOutput(text, coutEntries):
 		l = x.split('<<')
 		# delete cout from list
 		l.pop(0)
-		print (l)
 		for y in l:
 			aux += 'writeVar(' + removeSpacesFromVar(y) + ')' + ', '
 		aux = aux[:-2] + last
@@ -54,6 +65,7 @@ def replaceOutput(text, coutEntries):
 	return text
 
 inp = (open("input.txt", "r")).read()
+inp = removeDeSync(inp)
 
 x = getCinEntries(inp)
 inp = (replaceInput(inp, x))
