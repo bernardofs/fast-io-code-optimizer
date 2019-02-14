@@ -16,9 +16,9 @@ template <typename T>
 bool readString(T &x) {
   x = "";
   if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
+  while ((readCharacter == '\\n' || readCharacter == '\\t' || readCharacter == ' ')) readCharacter = getchar();
   if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter != '\n' && readCharacter != '\t' && readCharacter != ' ' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
+  while ((readCharacter != '\\n' && readCharacter != '\\t' && readCharacter != ' ' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
   return true;
 }
 
@@ -26,7 +26,7 @@ template <typename T>
 bool readChar(T &x) {
   if(!remaining) readCharacter = getchar(); else remaining = false;
   if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
+  while ((readCharacter == '\\n' || readCharacter == '\\t' || readCharacter == ' ')) readCharacter = getchar();
   remaining = false;
   x = readCharacter;
   return true;
@@ -93,16 +93,16 @@ bool readVar(unsigned long long &x) {
   return readInt(x);    
 }
 
+bool readVar(std::string &x) {
+  return readString(x);    
+}
+
 bool readVar(char &x) {
   return readChar(x);
 }
 
 bool readVar(char*& x) {
   return readCharArray(x);
-}
-
-bool readVar(std::string &x) {
-  return readString(x);    
 }
 
 bool readVar(float &x) {
@@ -135,7 +135,7 @@ void writeChar(char x) {
 }
 
 void writeCharArray(char *x) {
-  while(*x != '\0')
+  while(*x != '\\0')
     putchar(*x++);
 }
 
@@ -189,16 +189,16 @@ void writeVar(unsigned long long x) {
   writeInt(x);    
 }
 
+void writeVar(std::string x) {
+  writeString(x);    
+}
+
 void writeVar(char x) {
   writeChar(x);
 }
 
 void writeVar(char *x) {
   writeCharArray(x);
-}
-
-void writeVar(std::string x) {
-  writeString(x);    
 }
 
 void writeVar(float x) {
