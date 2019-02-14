@@ -134,7 +134,7 @@ void writeChar(char x) {
   putchar(x);
 }
 
-void writeCharArray(char *x) {
+void writeCharArray(const char *x) {
   while(*x != '\\0')
     putchar(*x++);
 }
@@ -197,7 +197,7 @@ void writeVar(char x) {
   writeChar(x);
 }
 
-void writeVar(char *x) {
+void writeVar(const char *x) {
   writeCharArray(x);
 }
 
