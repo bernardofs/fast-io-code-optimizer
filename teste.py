@@ -88,16 +88,24 @@ def getCoutEntries(text):
 			ret.append(s)				
 	return ret
 
+def joinTuple(tuple):
+	return ''.join(tuple)
+
+
 def removeDeSync(text):
 	r = []
-	r += re.findall(r'[\n{;,][^\n{;,]*sync_with_stdio[^;,\n]*[;,\n]', text)
-	r += re.findall(r'[\n{;,][^\n{;,]*cin[\s\t]*.[\s\t]*tie[^;,\n]*[;,\n]', text)
-	r += re.findall(r'[\n{;,][^\n{;,]*cout[\s\t]*.[\s\t]*tie[^;,\n]*[;,\n]', text)
+	#remove all desync
+	r += re.findall(r'(ios[\t\s]*::|ios_base[\t\s]*::)([\t\s]*sync_with_stdio[\t\s]*\([\t\s]*)([^\)]*)([\t\s]*\)[\t\s]*[,;\n])', text)
+	r += re.findall(r'(cin|cout)([\s\t]*\.[\s\t]*tie[\s\t]*\([\s\t]*)([^\)]*)([\s\t]*\)[\s\t]*[;,\n])', text)
 
+	# replace desync with 0
 	for entry in r:
-		entry = entry[1:]
-		text = text.replace(entry, '')
+		entry = joinTuple(entry)
+		last = entry[-1]
+		entry = entry[:-1]
+		text = text.replace(entry + last, '0' + last)
 
+	# remove all define endl	
 	r = re.findall(r'[\n]#[\s\t]*define[\s\t]*endl', text)
 	for entry in r:
 		entry = entry[1:]
