@@ -8,11 +8,11 @@ bool readVar(long int &x); bool readVar(long long int &x); bool readVar(unsigned
 bool readVar(unsigned int &x); bool readVar(unsigned long &x); bool readVar(unsigned long long &x);
 bool readVar(std::string &x); bool readVar(char &x); bool readVar(char*& x); bool readVar(float &x);
 bool readVar(double &x); bool readVar(long double &x); template <typename T> void writeInt(T x);
-void writeString(std::string x); void writeChar(char x); void writeCharArray(char *x);
+void writeString(std::string x); void writeChar(char x); void writeCharArray(const char *x);
 void writeFloat(float x); template <typename T> void writeDouble(T x); void writeVar(bool x);
 void writeVar(short int x); void writeVar(int x); void writeVar(long int x); void writeVar(long long int x);
 void writeVar(unsigned short int x); void writeVar(unsigned int x); void writeVar(unsigned long x);
-void writeVar(unsigned long long x); void writeVar(char x); void writeVar(char *x); 
+void writeVar(unsigned long long x); void writeVar(char x); void writeVar(const char *x); 
 void writeVar(std::string x); void writeVar(float x); void writeVar(double x); void writeVar(long double x);\n\n'''
 
 auxVariablesToRead = 'char readCharacter; bool remaining = false;\n'
@@ -27,10 +27,13 @@ def removeSpacesFromVar(name):
 	while name[j] in ['\t', ' ', '\n']:
 		j -= 1
 
-	return name[i : j + 1]	
+	return name[i : j + 1]
+
+def joinTuple(tuple):
+	return ''.join(tuple)
 
 def getCinEntries(text):
-	r = re.findall(r'[\s\t\n,;()]*cin[\s\t\n]*>>[^;]*;', text)
+	r = re.findall(r'[\s\t\n,;()]*cin[\s\t\n]*>>[^;{}\n]*[;{}\n]', text)
 	ret = []
 	for entry in r:
 		iter = re.finditer(r"[\s\t\n,;()]*cin", entry)
@@ -39,13 +42,24 @@ def getCinEntries(text):
 			while entry[i] != 'c':
 				i += 1
 			s = 'c'	
-			# variable to check if parenthesis is balanced at that moment	
+			# variable to check if brackets are balanced at that moment	
+			bra = 0
+			# variable to check if parenthesis are balanced at that moment	
 			par = 0
-			while (not entry[i] in [',', ';']) or (par != 0):
+			while (not entry[i] in [',', ';', '&', '|']) or (par != 0) or (bra != 0):
 				if entry[i] == '(':
 					par += 1
 				elif entry[i] == ')':  		
 					par -= 1
+					if par < 0:
+						break
+				elif entry[i] == '[':
+					bra += 1
+				elif entry[i] == ']':  		
+					bra -= 1
+					if bra < 0:
+						break
+
 				i += 1
 				s += entry[i]
 			ret.append(s)				
@@ -55,7 +69,7 @@ def replaceInput(text, cinEntries):
 	for entry in cinEntries:
 		aux = ''
 		last = entry[-1]
-		# delete semicolon (;) or comma (,) from line
+		# delete special characters like semicolon (;) or comma (,) from line
 		x = entry[:-1]
 		l = x.split('>>')
 		# delete cin from list
@@ -88,19 +102,17 @@ def getCoutEntries(text):
 			ret.append(s)				
 	return ret
 
-def joinTuple(tuple):
-	return ''.join(tuple)
-
 
 def removeDeSync(text):
 	r = []
-	#remove all desync
-	r += re.findall(r'(ios[\t\s]*::|ios_base[\t\s]*::)([\t\s]*sync_with_stdio[\t\s]*\([\t\s]*)([^\)]*)([\t\s]*\)[\t\s]*[,;\n])', text)
-	r += re.findall(r'(cin|cout)([\s\t]*\.[\s\t]*tie[\s\t]*\([\s\t]*)([^\)]*)([\s\t]*\)[\s\t]*[;,\n])', text)
+	# remove all desync
+	r += re.findall(r'(std[\s\t]*::[\s\t]*|)(ios[\t\s]*::|ios_base[\t\s]*::)([\t\s]*sync_with_stdio[\t\s]*\([\t\s]*)([^\)]*)([\t\s]*\)[\t\s]*[,;\n])', text)
+	r += re.findall(r'(std[\s\t]*::[\s\t]*|)(cin|cout)([\s\t]*\.[\s\t]*tie[\s\t]*\([\s\t]*)([^\)]*)([\s\t]*\)[\s\t]*[;,\n])', text)
 
 	# replace desync with 0
 	for entry in r:
 		entry = joinTuple(entry)
+		print ('entry = ' , entry)
 		last = entry[-1]
 		entry = entry[:-1]
 		text = text.replace(entry + last, '0' + last)
@@ -132,16 +144,71 @@ def replaceOutput(text, coutEntries):
 
 	return text
 
+def getGetlineEntriesAndReplace(text):
+	r = re.findall(r'getline[\s\t]*\([^;{}\n]*[;{}\n]', text)
+	print ('r = ', r)
+	for entry in r:
+		iter = re.finditer(r"[\s\t\n,;()]*getline", entry)
+		indices = [m.start(0) for m in iter]
+		for i in indices:
+			while entry[i] != 'g':
+				i += 1
+			i += 8
+			s = 'getline('
+			# variable to check if brackets are balanced at that moment	
+			bra = 0
+			# variable to check if parenthesis are balanced at that moment	
+			par = 0
+			while (entry[i] != ',') or (par != 0) or (bra != 0):
+				if entry[i] == '(':
+					par += 1
+				elif entry[i] == ')':  		
+					par -= 1
+					if par < 0:
+						break
+				elif entry[i] == '[':
+					bra += 1
+				elif entry[i] == ']':  		
+					bra -= 1
+					if bra < 0:
+						break
+				s += entry[i];
+				i += 1
+			s += ',';
+			i += 1	
+			var = ''
+			while (entry[i] != ')') or (par != 0) or (bra != 0):
+				if entry[i] == '(':
+					par += 1
+				elif entry[i] == ')':  		
+					par -= 1
+					if par < 0:
+						break
+				elif entry[i] == '[':
+					bra += 1
+				elif entry[i] == ']':  		
+					bra -= 1
+					if bra < 0:
+						break
+
+				s += entry[i]
+				var += entry[i]
+				i += 1
+			s += ')'
+			var = re.sub(' ', '', var)
+			text = text.replace(s, 'readGetline(' + var + ')')		
+	return text
+
 def undefMacros(text):
 
 	r = []
-	r += re.findall(r'#[\s\t]*define[\s\t]+[^\s\t]+\([^\n)]*\)', text)
-	r += re.findall(r'#[\s\t]*define[\s\t]+[^\s\t]*', text)
+	r += re.findall(r'#[\s\t]*define[\s\t]+[^\s\t]+\([^\n\)]*\)', text)
+	r += re.findall(r'#[\s\t]*define[\s\t]+[^\s\t\(]*', text)
 
 	undefs = '\n\n'
 	for entry in r:
 		entry = re.sub(r'#[\s\t]*define', '#undef', entry)
-		entry = re.sub(r'\(.*\)', '', entry)
+		entry = re.sub(r'\([^\)]*\)', '', entry)
 		entry += '\n'
 		undefs += entry
 
@@ -152,6 +219,7 @@ def undefMacros(text):
 inp = (open("input.txt", "r")).read()
 inp = removeDeSync(inp)
 inp = undefMacros(inp)
+inp = getGetlineEntriesAndReplace(inp)
 
 x = getCinEntries(inp)
 inp = (replaceInput(inp, x))
@@ -298,7 +366,7 @@ void writeChar(char x) {
   putchar(x);
 }
 
-void writeCharArray(char *x) {
+void writeCharArray(const char *x) {
   while(*x != '\\0')
     putchar(*x++);
 }
@@ -361,7 +429,7 @@ void writeVar(char x) {
   writeChar(x);
 }
 
-void writeVar(char *x) {
+void writeVar(const char *x) {
   writeCharArray(x);
 }
 
