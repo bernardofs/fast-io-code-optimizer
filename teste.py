@@ -201,10 +201,17 @@ def undefMacros(text):
 
 	return text
 
+def replaceCinIgnore(text):
+	r = re.findall(r'cin[\s\t]*\.[\s\t]*ignore[\s\t]*\([\s\t]*\)[\s\t]*;', text)
+	for entry in r:
+		text = text.replace(entry, 'if(remaining == true) remaining = false; else readCharacter = getchar();')
+	return text
+
 inp = (open("input.txt", "r")).read()
 inp = removeDeSync(inp)
 inp = undefMacros(inp)
 inp = getGetlineEntriesAndReplace(inp)
+inp = replaceCinIgnore(inp)
 
 x = getCinEntries(inp)
 inp = (replaceInput(inp, x))

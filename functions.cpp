@@ -1,5 +1,7 @@
+
+
 // read two consecutive char
-char readCharacter; bool remaining = false;
+// char readCharacter; bool remaining = false;
 
 template <typename T>
 bool readInt(T &x) {
@@ -8,7 +10,7 @@ bool readInt(T &x) {
   while (!isdigit(readCharacter) && readCharacter != EOF) sig = (readCharacter == '-' ? -sig : sig), readCharacter = getchar();
   if(readCharacter == EOF) return remaining = false, false;
   while (isdigit(readCharacter) && readCharacter != EOF) x = x * 10 + readCharacter - '0', readCharacter = getchar();
-  x *= sig;
+  x *= sig; remaining = true;
   return true;
 }
 
@@ -16,19 +18,28 @@ template <typename T>
 bool readString(T &x) {
   x = "";
   if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  while ((readCharacter == '\\n' || readCharacter == '\\t' || readCharacter == ' ')) readCharacter = getchar();
+  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
   if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter != '\\n' && readCharacter != '\\t' && readCharacter != ' ' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
+  while ((readCharacter != '\n' && readCharacter != '\t' && readCharacter != ' ' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
+  remaining = true;
+  return true;
+}
+
+bool readGetline(std::string &x) {
+  x = "";
+  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
+  if(readCharacter == EOF) return remaining = false, false;
+  while ((readCharacter != '\n' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
+  remaining = false;
   return true;
 }
 
 template <typename T>
 bool readChar(T &x) {
-  if(!remaining) readCharacter = getchar(); else remaining = false;
+  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
   if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter == '\\n' || readCharacter == '\\t' || readCharacter == ' ')) readCharacter = getchar();
-  remaining = false;
-  x = readCharacter;
+  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
+  x = readCharacter; remaining = false;
   return true;
 }
 
@@ -135,7 +146,7 @@ void writeChar(char x) {
 }
 
 void writeCharArray(const char *x) {
-  while(*x != '\\0')
+  while(*x != '\0')
     putchar(*x++);
 }
 
@@ -212,3 +223,4 @@ void writeVar(double x) {
 void writeVar(long double x) {
   writeDouble(x);
 }
+
