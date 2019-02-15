@@ -20,15 +20,16 @@ def joinTuple(tuple):
 	return ''.join(tuple)
 
 def getCinEntries(text):
-	r = re.findall(r'[\s\t\n,;()]*cin[\s\t\n]*>>[^;{}\n]*[;{}\n]', text)
+	r = re.findall(r'[\s\t\n,;()]*(std[\s\t]*::[\s\t]*|)(cin[\s\t\n]*>>[^;{}\n]*[;{}\n])', text)
 	ret = []
 	for entry in r:
-		iter = re.finditer(r"[\s\t\n,;()]*cin", entry)
+		entry = joinTuple(entry)
+		iter = re.finditer(r"([\s\t\n,;()]*)(std[\s\t]*::[\s\t]*|)(cin)", entry)
 		indices = [m.start(0) for m in iter]
 		for i in indices:
-			while entry[i] != 'c':
+			while entry[i] != 'c' and entry[i] != 's':
 				i += 1
-			s = 'c'	
+			s = entry[i]
 			# variable to check if brackets are balanced at that moment	
 			bra = 0
 			# variable to check if parenthesis are balanced at that moment	
@@ -68,22 +69,34 @@ def replaceInput(text, cinEntries):
 	return text
 
 def getCoutEntries(text):
-	r = re.findall(r'cout[\s\t\n]*<<[^;]*;', text)
+	r = re.findall(r'[\s\t\n,;()]*(std[\s\t]*::[\s\t]*|)(cout[\s\t\n]*<<[^;{}\n]*[;{}\n])', text)
 	ret = []
 	for entry in r:
-		iter = re.finditer(r"[\s\t\n,;]*cout", entry)
+		entry = joinTuple(entry)
+		iter = re.finditer(r"([\s\t\n,;()]*)(std[\s\t]*::[\s\t]*|)(cout)", entry)
 		indices = [m.start(0) for m in iter]
 		for i in indices:
-			while entry[i] != 'c':
+			while entry[i] != 'c' and entry[i] != 's':
 				i += 1
-			s = 'c'	
-			# variable to check if parenthesis is balanced at that moment	
+			s = entry[i]
+			# variable to check if brackets are balanced at that moment	
+			bra = 0
+			# variable to check if parenthesis are balanced at that moment	
 			par = 0
-			while (not entry[i] in [',', ';']) or (par != 0):
+			while (not entry[i] in [',', ';', '&', '|']) or (par != 0) or (bra != 0):
 				if entry[i] == '(':
 					par += 1
 				elif entry[i] == ')':  		
 					par -= 1
+					if par < 0:
+						break
+				elif entry[i] == '[':
+					bra += 1
+				elif entry[i] == ']':  		
+					bra -= 1
+					if bra < 0:
+						break
+
 				i += 1
 				s += entry[i]
 			ret.append(s)				
@@ -202,10 +215,19 @@ def undefMacros(text):
 	return text
 
 def replaceCinIgnore(text):
-	r = re.findall(r'cin[\s\t]*\.[\s\t]*ignore[\s\t]*\([\s\t]*\)[\s\t]*;', text)
+	r = re.findall(r'(std[\s\t]*::[\s\t]*|)(cin[\s\t]*\.[\s\t]*ignore[\s\t]*\([\s\t]*\))', text)
 	for entry in r:
-		text = text.replace(entry, 'if(remaining == true) remaining = false; else readCharacter = getchar();')
+		text = text.replace(entry, 'if(remaining == true) remaining = false; else readCharacter = getchar()')
 	return text
+
+def replaceFlush(text):
+	# replace cout.flush()
+	text = re.sub(r'(std[\s\t]*::[\s\t]*|)(cout[\s\t]*\.[\s\t]*flush[\s\t]*\([\s\t]*\))', 'fflush(stdout)', text)
+
+	text = text.replace(r'writeVar(flush)', 'fflush(stdout)')
+
+	return text
+
 
 inp = (open("input.txt", "r")).read()
 inp = removeDeSync(inp)
@@ -218,6 +240,8 @@ inp = (replaceInput(inp, x))
 
 x = getCoutEntries(inp)
 inp = (replaceOutput(inp, x))
+
+inp = replaceFlush(inp)
 
 inp = prototypes + inp
 inp = auxVariablesToRead + inp
