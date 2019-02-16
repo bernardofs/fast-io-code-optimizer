@@ -34,7 +34,7 @@ def getCinEntries(text):
 			bra = 0
 			# variable to check if parenthesis are balanced at that moment	
 			par = 0
-			while (not entry[i] in [',', ';', '&', '|']) or (par != 0) or (bra != 0):
+			while (not entry[i] in [',', ';', '&', '|', '\n']) or (par != 0) or (bra != 0):
 				if entry[i] == '(':
 					par += 1
 				elif entry[i] == ')':  		
@@ -83,7 +83,7 @@ def getCoutEntries(text):
 			bra = 0
 			# variable to check if parenthesis are balanced at that moment	
 			par = 0
-			while (not entry[i] in [',', ';', '&', '|']) or (par != 0) or (bra != 0):
+			while (not entry[i] in [',', ';', '&', '|', '\n']) or (par != 0) or (bra != 0):
 				if entry[i] == '(':
 					par += 1
 				elif entry[i] == ')':  		
@@ -228,6 +228,24 @@ def replaceFlush(text):
 
 	return text
 
+def getAndSetPrecision(text):
+
+	# remove cout << fixed
+	text = re.sub(r'(writeVar\()(std[\s\t]*::[\s\t]*|)([\s\t]*fixed[\s\t]*)(\))', '0', text)
+
+	r = re.findall(r'(writeVar\()(std[\s\t]*::[\s\t]*|)([\s\t]*setprecision[\s\t]*\([\s\t]*)([0-9]*)([\s\t]*\)\))', text)
+	precision = ''
+	entry = ''
+	if r:
+		entry = joinTuple(r[0])
+		precision = r[0][3]
+		text = text.replace(entry, '0')
+		text = text.replace('printf(\"%f\", x);', 'printf(\"%.' + precision +'f\", x);')
+		text = text.replace('printf(\"%lf\", (double)x);', 'printf(\"%.' + precision + 'lf\", (double)x);')
+
+
+	return text
+
 
 inp = (open("input.txt", "r")).read()
 inp = removeDeSync(inp)
@@ -248,6 +266,8 @@ inp = auxVariablesToRead + inp
 inp = "#define endl '\\n'\n" + inp
 inp = "#include <bits/stdc++.h>\n" + inp
 inp += (open("functions.cpp", "r")).read()
+
+inp = getAndSetPrecision(inp)
 
 
 print (inp)
