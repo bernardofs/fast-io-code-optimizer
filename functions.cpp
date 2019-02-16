@@ -9,7 +9,7 @@ bool readInt(T &x) {
   if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
   while (!isdigit(readCharacter) && readCharacter != EOF) sig = (readCharacter == '-' ? -sig : sig), readCharacter = getchar();
   if(readCharacter == EOF) return remaining = false, false;
-  while (isdigit(readCharacter) && readCharacter != EOF) x = x * 10 + readCharacter - '0', readCharacter = getchar();
+  while (isdigit(readCharacter)) x = x * 10 + readCharacter - '0', readCharacter = getchar();
   x *= sig; remaining = true;
   return true;
 }
@@ -71,6 +71,17 @@ bool readVar(bool &x) {
   return ret;
 }
 
+template<std::size_t N>
+bool readBitset(std::bitset<N> &bit) {
+  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
+  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
+  if(readCharacter == EOF) return remaining = false, false;
+  int i = 0; bit[i++] = readCharacter - '0';
+  while (readCharacter == '0' || readCharacter == '1') bit[i++] = readCharacter - '0', readCharacter = getchar();
+  remaining = true;
+  return true;
+}
+
 
 bool readVar(short int &x) {
   return readInt(x);    
@@ -128,6 +139,11 @@ bool readVar(long double &x) {
   return readDouble(x);
 }
 
+template<std::size_t N>
+bool readVar(std::bitset<N> &bit) {
+  return readBitset(bit);
+}
+
 template <typename T>
 void writeInt(T x) {
   if (x < 0) {putchar('-'); x = -x; }
@@ -150,7 +166,7 @@ void writeCharArray(const char *x) {
     putchar(*x++);
 }
 
-void writeString(std::string x) {
+void writeString(std::string &x) {
   for(char c: x) 
     putchar(c);
 }
@@ -162,6 +178,12 @@ void writeFloat(float x) {
 template <typename T>
 void writeDouble(T x) {
   printf("%lf", (double)x);
+}
+
+template<std::size_t N>
+void writeBitset(std::bitset<N> &bit) {
+  for(int i = (int)bit.size() - 1; i >= 0; i--)
+    putchar(bit[i] + 48);
 }
 
 void writeVar(bool x) {
@@ -200,7 +222,7 @@ void writeVar(unsigned long long x) {
   writeInt(x);    
 }
 
-void writeVar(std::string x) {
+void writeVar(std::string &x) {
   writeString(x);    
 }
 
@@ -222,5 +244,10 @@ void writeVar(double x) {
 
 void writeVar(long double x) {
   writeDouble(x);
+}
+
+template<std::size_t N>
+void writeVar(std::bitset<N> &bit) {
+  writeBitset(bit);
 }
 
