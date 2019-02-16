@@ -4,6 +4,28 @@ prototypes = (open("prototypes.cpp", "r")).read()
 
 auxVariablesToRead = 'char readCharacter; bool remaining = false;\n'
 
+definedStrings = {}
+
+def joinTuple(tuple):
+	return ''.join(tuple)
+
+def coverStrings(text):
+	r = []
+	r += re.findall(r'[^\\]\"(?:(?![^\\]\").)*[^\\]\"', text)
+	r += re.findall(r'[^\\]\'(?:(?![^\\]\').)*[^\\]\'', text)
+	for i in range(len(r)):
+		r[i] = r[i][1:]
+		definedStrings[i] = r[i]
+		text = text.replace(r[i], '¿¿¿¿¿' + str(i) + '¿¿¿¿¿')
+
+	return text
+
+def uncoverStrings(text):
+	for key, value in definedStrings.items():
+		text = text.replace('¿¿¿¿¿' + str(key) + '¿¿¿¿¿', value)
+
+	return text
+
 def removeSpacesFromVar(name):
 	
 	i = 0
@@ -15,9 +37,6 @@ def removeSpacesFromVar(name):
 		j -= 1
 
 	return name[i : j + 1]
-
-def joinTuple(tuple):
-	return ''.join(tuple)
 
 def getCinEntries(text):
 	r = re.findall(r'[\s\t\n,;()]*(std[\s\t]*::[\s\t]*|)(cin[\s\t\n]*>>[^;{}\n]*[;{}\n])', text)
@@ -247,7 +266,10 @@ def getAndSetPrecision(text):
 	return text
 
 
+
+
 inp = (open("input.txt", "r")).read()
+inp = coverStrings(inp)
 inp = removeDeSync(inp)
 inp = undefMacros(inp)
 inp = getGetlineEntriesAndReplace(inp)
@@ -268,6 +290,7 @@ inp = "#include <bits/stdc++.h>\n" + inp
 inp += (open("functions.cpp", "r")).read()
 
 inp = getAndSetPrecision(inp)
+inp = uncoverStrings(inp)
 
 
 print (inp)
