@@ -1,6 +1,7 @@
 
 
 template <typename T> bool readInt(T &x); template <typename T> bool readString(T &x); 
+template<size_t N> bool readCharArray(char (&x)[N]); template<size_t N> bool readVar(char (&x)[N]);
 template <typename T> bool readChar(T &x); bool readCharArray(char*& x); bool readGetline(std::string &x);
 template <typename T> bool readFloat(T &x); template <typename T> bool readDouble(T &x);
 template<std::size_t N> bool readBitset(std::bitset<N> &bit); template<std::size_t N> bool readVar(std::bitset<N> &bit);

@@ -157,13 +157,6 @@ def removeDeSync(text):
 		entry = entry[:-1]
 		text = text.replace(entry + last, '0' + last)
 
-	# remove all define endl	
-	r = re.findall(r'[\n]#[\s\t]*define[\s\t]*endl', text)
-	for entry in r:
-		entry = entry[1:]
-		text = text.replace(entry, '#define jlakjasdhfheyhidfkjvcbhd')
-
-
 	return text
 
 
@@ -258,6 +251,7 @@ def undefMacros(text):
 def replaceCinIgnore(text):
 	r = re.findall(r'(std[\s\t]*::[\s\t]*|)(cin[\s\t]*\.[\s\t]*ignore[\s\t]*\([\s\t]*\))', text)
 	for entry in r:
+		entry = joinTuple(entry)
 		text = text.replace(entry, 'if(remaining == true) remaining = false; else readCharacter = getchar()')
 	return text
 

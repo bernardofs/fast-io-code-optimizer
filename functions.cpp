@@ -43,6 +43,17 @@ bool readChar(T &x) {
   return true;
 }
 
+template<size_t N>
+bool readCharArray(char (&x)[N]) {
+  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
+  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
+  if(readCharacter == EOF) return remaining = false, false;
+  char *ptr = &x[0];
+  while ((readCharacter != '\n' && readCharacter != '\t' && readCharacter != ' ' && readCharacter != EOF)) *ptr++ = readCharacter, readCharacter = getchar();
+  *ptr = '\0', remaining = true;
+  return true;
+}
+
 bool readCharArray(char*& x) {
   std::string y;
   if(readString(y) == false)
@@ -72,13 +83,12 @@ bool readVar(bool &x) {
 }
 
 template<std::size_t N>
-bool readBitset(std::bitset<N> &bit) {
+bool readBitset(std::bitset<N> &x) {
   if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
   while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
   if(readCharacter == EOF) return remaining = false, false;
-  int i = 0; bit[i++] = readCharacter - '0';
-  while (readCharacter == '0' || readCharacter == '1') bit[i++] = readCharacter - '0', readCharacter = getchar();
-  remaining = true;
+  int i = 0; remaining = true;
+  while (readCharacter == '0' || readCharacter == '1') x[i++] = readCharacter - '0', readCharacter = getchar();
   return true;
 }
 
@@ -123,6 +133,11 @@ bool readVar(char &x) {
   return readChar(x);
 }
 
+template<size_t N>
+bool readVar(char (&x)[N]) {
+  return readCharArray(x);
+}
+
 bool readVar(char*& x) {
   return readCharArray(x);
 }
@@ -140,8 +155,8 @@ bool readVar(long double &x) {
 }
 
 template<std::size_t N>
-bool readVar(std::bitset<N> &bit) {
-  return readBitset(bit);
+bool readVar(std::bitset<N> &x) {
+  return readBitset(x);
 }
 
 template <typename T>
@@ -181,9 +196,9 @@ void writeDouble(T x) {
 }
 
 template<std::size_t N>
-void writeBitset(std::bitset<N> &bit) {
-  for(int i = (int)bit.size() - 1; i >= 0; i--)
-    putchar(bit[i] + 48);
+void writeBitset(std::bitset<N> &x) {
+  for(int i = (int)x.size() - 1; i >= 0; i--)
+    putchar(x[i] + 48);
 }
 
 void writeVar(bool x) {
@@ -247,7 +262,7 @@ void writeVar(long double x) {
 }
 
 template<std::size_t N>
-void writeVar(std::bitset<N> &bit) {
-  writeBitset(bit);
+void writeVar(std::bitset<N> &x) {
+  writeBitset(x);
 }
 
