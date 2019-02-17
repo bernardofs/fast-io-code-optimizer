@@ -1,19 +1,19 @@
 
 
-template <typename T> bool readInt(T &x); template <typename T> bool readString(T &x); 
-template<size_t N> bool readCharArray(char (&x)[N]); template<size_t N> bool readVar(char (&x)[N]);
-template <typename T> bool readChar(T &x); bool readCharArray(char*& x); bool readGetline(std::string &x);
-template <typename T> bool readFloat(T &x); template <typename T> bool readDouble(T &x);
-template<std::size_t N> bool readBitset(std::bitset<N> &bit); template<std::size_t N> bool readVar(std::bitset<N> &bit);
-bool readVar(bool &x); bool readVar(short int &x); bool readVar(int &x); 
-bool readVar(long int &x); bool readVar(long long int &x); bool readVar(unsigned short int &x);
-bool readVar(unsigned int &x); bool readVar(unsigned long &x); bool readVar(unsigned long long &x);
-bool readVar(std::string &x); bool readVar(char &x); bool readVar(char*& x); bool readVar(float &x);
-bool readVar(double &x); bool readVar(long double &x); template <typename T> void writeInt(T x);
-void writeString(std::string &x); void writeChar(char x); void writeCharArray(const char *x);
-void writeFloat(float x); template <typename T> void writeDouble(T x); void writeVar(bool x);
-void writeVar(short int x); void writeVar(int x); void writeVar(long int x); void writeVar(long long int x);
-void writeVar(unsigned short int x); void writeVar(unsigned int x); void writeVar(unsigned long x);
-void writeVar(unsigned long long x); void writeVar(char x); void writeVar(const char *x); 
-void writeVar(std::string &x); void writeVar(float x); void writeVar(double x); void writeVar(long double x);
-template<std::size_t N> void writeVar(std::bitset<N> &bit); template<std::size_t N> void writeBitset(std::bitset<N> &bit);
+template <typename T> bool READ_INT(T &x); template <typename T> bool READ_STRING(T &x); 
+template<size_t N> bool READ_CHAR_ARRAY(char (&x)[N]); template<size_t N> bool READ_VAR(char (&x)[N]);
+template <typename T> bool READ_CHAR(T &x); bool READ_CHAR_ARRAY(char*& x); bool READ_GETLINE(std::string &x);
+template <typename T> bool READ_FLOAT(T &x); template <typename T> bool READ_DOUBLE(T &x);
+template<std::size_t N> bool READ_BITSET(std::bitset<N> &bit); template<std::size_t N> bool READ_VAR(std::bitset<N> &bit);
+bool READ_VAR(bool &x); bool READ_VAR(short int &x); bool READ_VAR(int &x); 
+bool READ_VAR(long int &x); bool READ_VAR(long long int &x); bool READ_VAR(unsigned short int &x);
+bool READ_VAR(unsigned int &x); bool READ_VAR(unsigned long &x); bool READ_VAR(unsigned long long &x);
+bool READ_VAR(std::string &x); bool READ_VAR(char &x); bool READ_VAR(char*& x); bool READ_VAR(float &x);
+bool READ_VAR(double &x); bool READ_VAR(long double &x); template <typename T> void WRITE_INT(T x);
+void WRITE_STRING(std::string &x); void WRITE_CHAR(char x); void WRITE_CHAR_ARRAY(const char *x);
+void WRITE_FLOAT(float x); template <typename T> void WRITE_DOUBLE(T x); void WRITE_VAR(bool x);
+void WRITE_VAR(short int x); void WRITE_VAR(int x); void WRITE_VAR(long int x); void WRITE_VAR(long long int x);
+void WRITE_VAR(unsigned short int x); void WRITE_VAR(unsigned int x); void WRITE_VAR(unsigned long x);
+void WRITE_VAR(unsigned long long x); void WRITE_VAR(char x); void WRITE_VAR(const char *x); 
+void WRITE_VAR(std::string &x); void WRITE_VAR(float x); void WRITE_VAR(double x); void WRITE_VAR(long double x);
+template<std::size_t N> void WRITE_VAR(std::bitset<N> &bit); template<std::size_t N> void WRITE_BITSET(std::bitset<N> &bit);

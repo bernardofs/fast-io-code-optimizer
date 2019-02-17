@@ -1,62 +1,62 @@
 
 
 // read two consecutive char
-// char readCharacter; bool remaining = false;
+// char READ_CHARACTER; bool REMAINING_CHARACTER = false;
 
 template <typename T>
-bool readInt(T &x) {
+bool READ_INT(T &x) {
   x = 0; T sig = 1;
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  while (!isdigit(readCharacter) && readCharacter != EOF) sig = (readCharacter == '-' ? -sig : sig), readCharacter = getchar();
-  if(readCharacter == EOF) return remaining = false, false;
-  while (isdigit(readCharacter)) x = x * 10 + readCharacter - '0', readCharacter = getchar();
-  x *= sig; remaining = true;
+  if(!REMAINING_CHARACTER) READ_CHARACTER = getchar(), REMAINING_CHARACTER = true; else REMAINING_CHARACTER = false;
+  while (!isdigit(READ_CHARACTER) && READ_CHARACTER != EOF) sig = (READ_CHARACTER == '-' ? -sig : sig), READ_CHARACTER = getchar();
+  if(READ_CHARACTER == EOF) return REMAINING_CHARACTER = false, false;
+  while (isdigit(READ_CHARACTER)) x = x * 10 + READ_CHARACTER - '0', READ_CHARACTER = getchar();
+  x *= sig; REMAINING_CHARACTER = true;
   return true;
 }
 
 template <typename T>
-bool readString(T &x) {
+bool READ_STRING(T &x) {
   x = "";
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
-  if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter != '\n' && readCharacter != '\t' && readCharacter != ' ' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
-  remaining = true;
+  if(!REMAINING_CHARACTER) READ_CHARACTER = getchar(), REMAINING_CHARACTER = true; else REMAINING_CHARACTER = false;
+  while ((READ_CHARACTER == '\n' || READ_CHARACTER == '\t' || READ_CHARACTER == ' ')) READ_CHARACTER = getchar();
+  if(READ_CHARACTER == EOF) return REMAINING_CHARACTER = false, false;
+  while ((READ_CHARACTER != '\n' && READ_CHARACTER != '\t' && READ_CHARACTER != ' ' && READ_CHARACTER != EOF)) x += READ_CHARACTER, READ_CHARACTER = getchar();
+  REMAINING_CHARACTER = true;
   return true;
 }
 
-bool readGetline(std::string &x) {
+bool READ_GETLINE(std::string &x) {
   x = "";
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter != '\n' && readCharacter != EOF)) x += readCharacter, readCharacter = getchar();
-  remaining = false;
+  if(!REMAINING_CHARACTER) READ_CHARACTER = getchar(), REMAINING_CHARACTER = true; else REMAINING_CHARACTER = false;
+  if(READ_CHARACTER == EOF) return REMAINING_CHARACTER = false, false;
+  while ((READ_CHARACTER != '\n' && READ_CHARACTER != EOF)) x += READ_CHARACTER, READ_CHARACTER = getchar();
+  REMAINING_CHARACTER = false;
   return true;
 }
 
 template <typename T>
-bool readChar(T &x) {
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  if(readCharacter == EOF) return remaining = false, false;
-  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
-  x = readCharacter; remaining = false;
+bool READ_CHAR(T &x) {
+  if(!REMAINING_CHARACTER) READ_CHARACTER = getchar(), REMAINING_CHARACTER = true; else REMAINING_CHARACTER = false;
+  if(READ_CHARACTER == EOF) return REMAINING_CHARACTER = false, false;
+  while ((READ_CHARACTER == '\n' || READ_CHARACTER == '\t' || READ_CHARACTER == ' ')) READ_CHARACTER = getchar();
+  x = READ_CHARACTER; REMAINING_CHARACTER = false;
   return true;
 }
 
 template<size_t N>
-bool readCharArray(char (&x)[N]) {
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
-  if(readCharacter == EOF) return remaining = false, false;
+bool READ_CHAR_ARRAY(char (&x)[N]) {
+  if(!REMAINING_CHARACTER) READ_CHARACTER = getchar(), REMAINING_CHARACTER = true; else REMAINING_CHARACTER = false;
+  while ((READ_CHARACTER == '\n' || READ_CHARACTER == '\t' || READ_CHARACTER == ' ')) READ_CHARACTER = getchar();
+  if(READ_CHARACTER == EOF) return REMAINING_CHARACTER = false, false;
   char *ptr = &x[0];
-  while ((readCharacter != '\n' && readCharacter != '\t' && readCharacter != ' ' && readCharacter != EOF)) *ptr++ = readCharacter, readCharacter = getchar();
-  *ptr = '\0', remaining = true;
+  while ((READ_CHARACTER != '\n' && READ_CHARACTER != '\t' && READ_CHARACTER != ' ' && READ_CHARACTER != EOF)) *ptr++ = READ_CHARACTER, READ_CHARACTER = getchar();
+  *ptr = '\0', REMAINING_CHARACTER = true;
   return true;
 }
 
-bool readCharArray(char*& x) {
+bool READ_CHAR_ARRAY(char*& x) {
   std::string y;
-  if(readString(y) == false)
+  if(READ_STRING(y) == false)
     return false;
   x = new char[(int)y.size() + 1];
   strcpy(x, y.c_str());
@@ -64,103 +64,103 @@ bool readCharArray(char*& x) {
 }
 
 template <typename T>
-bool readFloat(T &x) {
+bool READ_FLOAT(T &x) {
   return (scanf("%f", &x) != EOF);
 }
 
 template <typename T>
-bool readDouble(T &x) {
+bool READ_DOUBLE(T &x) {
   double y;
   if(scanf("%lf", &y) == EOF) return false;
   x = y;
   return true;
 }
 
-bool readVar(bool &x) {
-  int aux; bool ret = readInt(aux);
+bool READ_VAR(bool &x) {
+  int aux; bool ret = READ_INT(aux);
   x = (aux != 0);
   return ret;
 }
 
 template<std::size_t N>
-bool readBitset(std::bitset<N> &x) {
-  if(!remaining) readCharacter = getchar(), remaining = true; else remaining = false;
-  while ((readCharacter == '\n' || readCharacter == '\t' || readCharacter == ' ')) readCharacter = getchar();
-  if(readCharacter == EOF) return remaining = false, false;
-  int i = 0; remaining = true;
-  while (readCharacter == '0' || readCharacter == '1') x[i++] = readCharacter - '0', readCharacter = getchar();
+bool READ_BITSET(std::bitset<N> &x) {
+  if(!REMAINING_CHARACTER) READ_CHARACTER = getchar(), REMAINING_CHARACTER = true; else REMAINING_CHARACTER = false;
+  while ((READ_CHARACTER == '\n' || READ_CHARACTER == '\t' || READ_CHARACTER == ' ')) READ_CHARACTER = getchar();
+  if(READ_CHARACTER == EOF) return REMAINING_CHARACTER = false, false;
+  int i = 0; REMAINING_CHARACTER = true;
+  while (READ_CHARACTER == '0' || READ_CHARACTER == '1') x[i++] = READ_CHARACTER - '0', READ_CHARACTER = getchar();
   return true;
 }
 
 
-bool readVar(short int &x) {
-  return readInt(x);    
+bool READ_VAR(short int &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(int &x) {
-  return readInt(x);    
+bool READ_VAR(int &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(long int &x) {
-  return readInt(x);    
+bool READ_VAR(long int &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(long long int &x) {
-  return readInt(x);    
+bool READ_VAR(long long int &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(unsigned short int &x) {
-  return readInt(x);    
+bool READ_VAR(unsigned short int &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(unsigned int &x) {
-  return readInt(x);    
+bool READ_VAR(unsigned int &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(unsigned long &x) {
-  return readInt(x);    
+bool READ_VAR(unsigned long &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(unsigned long long &x) {
-  return readInt(x);    
+bool READ_VAR(unsigned long long &x) {
+  return READ_INT(x);    
 }
 
-bool readVar(std::string &x) {
-  return readString(x);    
+bool READ_VAR(std::string &x) {
+  return READ_STRING(x);    
 }
 
-bool readVar(char &x) {
-  return readChar(x);
+bool READ_VAR(char &x) {
+  return READ_CHAR(x);
 }
 
 template<size_t N>
-bool readVar(char (&x)[N]) {
-  return readCharArray(x);
+bool READ_VAR(char (&x)[N]) {
+  return READ_CHAR_ARRAY(x);
 }
 
-bool readVar(char*& x) {
-  return readCharArray(x);
+bool READ_VAR(char*& x) {
+  return READ_CHAR_ARRAY(x);
 }
 
-bool readVar(float &x) {
-  return readFloat(x);
+bool READ_VAR(float &x) {
+  return READ_FLOAT(x);
 }
 
-bool readVar(double &x) {
-  return readDouble(x);
+bool READ_VAR(double &x) {
+  return READ_DOUBLE(x);
 }
 
-bool readVar(long double &x) {
-  return readDouble(x);
+bool READ_VAR(long double &x) {
+  return READ_DOUBLE(x);
 }
 
 template<std::size_t N>
-bool readVar(std::bitset<N> &x) {
-  return readBitset(x);
+bool READ_VAR(std::bitset<N> &x) {
+  return READ_BITSET(x);
 }
 
 template <typename T>
-void writeInt(T x) {
+void WRITE_INT(T x) {
   if (x < 0) {putchar('-'); x = -x; }
   char writeBuffer[20], *writePtr = writeBuffer;
   do {
@@ -172,97 +172,97 @@ void writeInt(T x) {
   while (writePtr > writeBuffer);
 }
 
-void writeChar(char x) {
+void WRITE_CHAR(char x) {
   putchar(x);
 }
 
-void writeCharArray(const char *x) {
+void WRITE_CHAR_ARRAY(const char *x) {
   while(*x != '\0')
     putchar(*x++);
 }
 
-void writeString(std::string &x) {
+void WRITE_STRING(std::string &x) {
   for(char c: x) 
     putchar(c);
 }
 
-void writeFloat(float x) {
+void WRITE_FLOAT(float x) {
   printf("%f", x);
 }
 
 template <typename T>
-void writeDouble(T x) {
+void WRITE_DOUBLE(T x) {
   printf("%lf", (double)x);
 }
 
 template<std::size_t N>
-void writeBitset(std::bitset<N> &x) {
+void WRITE_BITSET(std::bitset<N> &x) {
   for(int i = (int)x.size() - 1; i >= 0; i--)
     putchar(x[i] + 48);
 }
 
-void writeVar(bool x) {
-  writeInt(x);
+void WRITE_VAR(bool x) {
+  WRITE_INT(x);
 }
 
-void writeVar(short int x) {
-  writeInt(x);    
+void WRITE_VAR(short int x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(int x) {
-  writeInt(x);    
+void WRITE_VAR(int x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(long int x) {
-  writeInt(x);    
+void WRITE_VAR(long int x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(long long int x) {
-  writeInt(x);    
+void WRITE_VAR(long long int x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(unsigned short int x) {
-  writeInt(x);    
+void WRITE_VAR(unsigned short int x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(unsigned int x) {
-  writeInt(x);    
+void WRITE_VAR(unsigned int x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(unsigned long x) {
-  writeInt(x);    
+void WRITE_VAR(unsigned long x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(unsigned long long x) {
-  writeInt(x);    
+void WRITE_VAR(unsigned long long x) {
+  WRITE_INT(x);    
 }
 
-void writeVar(std::string &x) {
-  writeString(x);    
+void WRITE_VAR(std::string &x) {
+  WRITE_STRING(x);    
 }
 
-void writeVar(char x) {
-  writeChar(x);
+void WRITE_VAR(char x) {
+  WRITE_CHAR(x);
 }
 
-void writeVar(const char *x) {
-  writeCharArray(x);
+void WRITE_VAR(const char *x) {
+  WRITE_CHAR_ARRAY(x);
 }
 
-void writeVar(float x) {
-  writeFloat(x);
+void WRITE_VAR(float x) {
+  WRITE_FLOAT(x);
 }
 
-void writeVar(double x) {
-  writeDouble(x);
+void WRITE_VAR(double x) {
+  WRITE_DOUBLE(x);
 }
 
-void writeVar(long double x) {
-  writeDouble(x);
+void WRITE_VAR(long double x) {
+  WRITE_DOUBLE(x);
 }
 
 template<std::size_t N>
-void writeVar(std::bitset<N> &x) {
-  writeBitset(x);
+void WRITE_VAR(std::bitset<N> &x) {
+  WRITE_BITSET(x);
 }
 
