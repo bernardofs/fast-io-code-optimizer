@@ -2,7 +2,18 @@ import re
 
 prototypes = (open("prototypes.cpp", "r")).read()
 
-auxVariablesToRead = 'char readCharacter; bool remaining = false;\n'
+auxVariablesToRead = 'char readCharacter; bool remaining = false;'
+
+warningBackslashMessage = '''
+/*
+....................... WARNING .......................
+.. It was found a \\ (Backslash) symbol in your file ...
+.... This software doesn\'t support multiline code .....
+............. and may not work as expected ............
+.......................................................
+*\\
+
+'''  
 
 definedStrings = {}
 
@@ -239,11 +250,16 @@ def replaceCinIgnore(text):
 		text = text.replace(entry, 'if(remaining == true) remaining = false; else readCharacter = getchar()')
 	return text
 
-def replaceFlush(text):
+def replaceOstream(text):
 	# replace cout.flush()
 	text = re.sub(r'(std[\s\t]*::[\s\t]*|)(cout[\s\t]*\.[\s\t]*flush[\s\t]*\([\s\t]*\))', 'fflush(stdout)', text)
 
-	text = text.replace(r'writeVar(flush)', 'fflush(stdout)')
+	#replace cout << flush
+	text = re.sub(r'(writeVar\()(std[\s\t]*::[\s\t]*|)(flush\))', 'fflush(stdout)', text)
+
+	#replace cout << endl
+	text = re.sub(r'(writeVar\()(std[\s\t]*::[\s\t]*|)(endl\))', "writeVar(endl)", text)
+	text = text.replace('writeVar(endl)', "putchar('\\n')")
 
 	return text
 
@@ -265,8 +281,12 @@ def getAndSetPrecision(text):
 
 	return text
 
+def findBackslash(text):
+	r = re.findall(r'[\s\n\t]\\[\s\n\t]', text)
+	if r:
+		text = warningBackslashMessage + text + warningBackslashMessage
 
-
+	return text
 
 inp = (open("input.txt", "r")).read()
 inp = coverStrings(inp)
@@ -281,13 +301,14 @@ inp = (replaceInput(inp, x))
 x = getCoutEntries(inp)
 inp = (replaceOutput(inp, x))
 
-inp = replaceFlush(inp)
+inp = replaceOstream(inp)
 
 inp = prototypes + inp
 inp = auxVariablesToRead + inp
-inp = "#define endl '\\n'\n" + inp
-inp = "#include <bits/stdc++.h>\n" + inp
+inp = "#include <bits/stdc++.h>\n\n" + inp
 inp += (open("functions.cpp", "r")).read()
+
+inp = findBackslash(inp)
 
 inp = getAndSetPrecision(inp)
 inp = uncoverStrings(inp)
