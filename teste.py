@@ -15,6 +15,17 @@ warningBackslashMessage = '''
 
 '''  
 
+warningSetPrecisionMessage = '''
+/*
+....................... WARNING ........................
+.. It was found multiple setprecision occurrences in ...
+.. your code. This software doesn\'t support multiple ...
+....... occurrences and may not work as expected .......
+........................................................
+*\\
+
+'''
+
 definedStrings = {}
 
 def joinTuple(tuple):
@@ -278,6 +289,8 @@ def getAndSetPrecision(text):
 		text = text.replace('printf(\"%f\", x);', 'printf(\"%.' + precision +'f\", x);')
 		text = text.replace('printf(\"%lf\", (double)x);', 'printf(\"%.' + precision + 'lf\", (double)x);')
 
+	if len(r) > 1:
+		text = warningSetPrecisionMessage + text + warningSetPrecisionMessage 
 
 	return text
 
@@ -309,8 +322,8 @@ inp = "#include <bits/stdc++.h>\n\n" + inp
 inp += (open("functions.cpp", "r")).read()
 
 inp = findBackslash(inp)
-
 inp = getAndSetPrecision(inp)
+
 inp = uncoverStrings(inp)
 
 
