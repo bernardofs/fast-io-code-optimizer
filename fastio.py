@@ -41,7 +41,6 @@ warningSetPrecisionMessage = ''
 
 
 
-
 definedStrings = {}
 
 def joinTuple(tuple):
@@ -120,7 +119,7 @@ def replaceInput(text, cinEntries):
 		# delete cin from list
 		l.pop(0)
 		for y in l:
-			aux += 'READ_VAR(' + removeSpacesFromVar(y) + ')' + ', '
+			aux += 'FIO.READ_VAR(' + removeSpacesFromVar(y) + ')' + ', '
 		aux = aux[:-2] + last
 		text = text.replace(pattern, aux)
 	return text
@@ -187,7 +186,7 @@ def replaceOutput(text, coutEntries):
 		l.pop(0)
 		# print (pattern)
 		for y in l:
-			aux += 'WRITE_VAR(' + removeSpacesFromVar(y) + ')' + ', '
+			aux += 'FIO.WRITE_VAR(' + removeSpacesFromVar(y) + ')' + ', '
 		aux = aux[:-2] + last
 		text = text.replace(pattern, aux)
 
@@ -244,7 +243,7 @@ def getGetlineEntriesAndReplace(text):
 				i += 1
 			s += ')'
 			var = re.sub(' ', '', var)
-			text = text.replace(s, 'readGetline(' + var + ')')		
+			text = text.replace(s, 'FIO.readGetline(' + var + ')')		
 	return text
 
 def undefMacros(text):
@@ -268,28 +267,28 @@ def replaceCinIgnore(text):
 	r = re.findall(r'(std[\s\t]*::[\s\t]*|)(cin[\s\t]*\.[\s\t]*ignore[\s\t]*\([\s\t]*\))', text)
 	for pattern in r:
 		pattern = joinTuple(pattern)
-		text = text.replace(pattern, 'if(remaining == true) remaining = false; else readCharacter = getchar()')
+		text = text.replace(pattern, 'FIO.ignore()')
 	return text
 
 def replaceOstream(text):
 	# replace cout.flush()
-	text = re.sub(r'(std[\s\t]*::[\s\t]*|)(cout[\s\t]*\.[\s\t]*flush[\s\t]*\([\s\t]*\))', 'fflush(stdout)', text)
+	text = re.sub(r'(std[\s\t]*::[\s\t]*|)(cout[\s\t]*\.[\s\t]*flush[\s\t]*\([\s\t]*\))', 'FIO.flush()', text)
 
 	#replace cout << flush
-	text = re.sub(r'(WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(flush\))', 'fflush(stdout)', text)
+	text = re.sub(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(flush\))', 'FIO.flush()', text)
 
 	#replace cout << endl
-	text = re.sub(r'(WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(endl\))', "WRITE_VAR(endl)", text)
-	text = text.replace('WRITE_VAR(endl)', "putchar('\\n')")
+	text = re.sub(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(endl\))', "FIO.WRITE_VAR(endl)", text)
+	text = text.replace('FIO.WRITE_VAR(endl)', "putchar('\\n')")
 
 	return text
 
 def getAndSetPrecision(text):
 
 	# remove cout << fixed
-	text = re.sub(r'(WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*fixed[\s\t]*)(\))', '0', text)
+	text = re.sub(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*fixed[\s\t]*)(\))', '0', text)
 
-	r = re.findall(r'(WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*setprecision[\s\t]*\([\s\t]*)([0-9]*)([\s\t]*\)\))', text)
+	r = re.findall(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*setprecision[\s\t]*\([\s\t]*)([0-9]*)([\s\t]*\)\))', text)
 	precision = ''
 	pattern = ''
 	if r:
@@ -341,8 +340,6 @@ code = replaceOstream(code)
 
 prototypes = (open("prototypes.cpp", "r")).read()
 code = prototypes + code
-auxVariablesToRead = 'char READ_CHARACTER; bool REMAINING_CHARACTER = false;'
-code = auxVariablesToRead + code
 code = "#include <bits/stdc++.h>\n\n" + code
 code += (open("functions.cpp", "r")).read()
 
@@ -359,4 +356,3 @@ if printInFile:
 
 if printInTerminal:
 	print (code)
-
