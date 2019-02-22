@@ -29,29 +29,29 @@ Cin is replaced by getchar() function which is responsible to read each number a
 #### Reading Strings and Characters 
 Cin is replaced by getchar() function which is responsible to read the string char by char.
 
-#### Reading floating numbers
+#### Reading Floating Numbers
 Cin is replaced by a scanf function.
 
-#### Reading bool and bitset
+#### Reading Booleans and Bitsets
 Cin is replaced by getchar() function which is responsible to read each bit as a character and convert it to a bit.
 
 ### Writing Variables
 
-#### Writing Integers
+#### - Writing Integers
 Cout is replaced by putchar() function which is responsible to write each number as a character.
 
 #### Writing Strings and Characters
 Cout is replaced by putchar() function which is responsible to write each character char by char.
 
-#### Writing floating numbers
+#### Writing Floating Numbers
 Cout is replaced by a printf function. If setprecision(number) method, is called all floating numbers will be written with "number" decimal places. However, this tool only supports one call of setprecision method.  
 
-#### Writing bool and bitset
+#### Writing Booleans and Bitsets
 Cout is replaced by putchar() function which is responsible to write each bit as a character.
 
-The use of std:: before a call and the use of blank characters like tabs and spaces are supported.
+The usage of std:: before a call and the usage of blank characters like tabs and spaces are supported.
 
-## Important restrictions 
+## Important Restrictions 
 * This tool doesn't work with multiple calls of setprecision function.
 * Multiline statements are not supported.
 
