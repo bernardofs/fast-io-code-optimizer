@@ -27,7 +27,7 @@ In order to optimize the code performance, text replacing was the approach chose
 Cin is replaced by getchar() function which is responsible to read each number as a character and convert it to a number.
 
 #### - Reading Strings and Characters 
-Cin is replaced by getchar() function which is responsible to read the string char by char.
+Cin is replaced by getchar() function which is responsible to read the string, char by char.
 
 #### - Reading Floating Numbers
 Cin is replaced by a scanf function.
@@ -41,10 +41,10 @@ Cin is replaced by getchar() function which is responsible to read each bit as a
 Cout is replaced by putchar() function which is responsible to write each number as a character.
 
 #### - Writing Strings and Characters
-Cout is replaced by putchar() function which is responsible to write each character char by char.
+Cout is replaced by putchar() function which is responsible to write each character, char by char.
 
 #### - Writing Floating Numbers
-Cout is replaced by a printf function. If setprecision(number) method, is called all floating numbers will be written with "number" decimal places. However, this tool only supports one call of setprecision method.  
+Cout is replaced by a printf function. If setprecision(number) method is called, all floating numbers will be written with "number" decimal places. However, this tool only supports one call of setprecision method.  
 
 #### - Writing Booleans and Bitsets
 Cout is replaced by putchar() function which is responsible to write each bit as a character.
