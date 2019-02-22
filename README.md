@@ -23,16 +23,16 @@ In order to optimize the code performance, text replacing was the approach chose
 
 ### Reading Variables
 
-#### Reading Integers
+#### - Reading Integers
 Cin is replaced by getchar() function which is responsible to read each number as a character and convert it to a number.
 
-#### Reading Strings and Characters 
+#### - Reading Strings and Characters 
 Cin is replaced by getchar() function which is responsible to read the string char by char.
 
-#### Reading Floating Numbers
+#### - Reading Floating Numbers
 Cin is replaced by a scanf function.
 
-#### Reading Booleans and Bitsets
+#### - Reading Booleans and Bitsets
 Cin is replaced by getchar() function which is responsible to read each bit as a character and convert it to a bit.
 
 ### Writing Variables
@@ -40,13 +40,13 @@ Cin is replaced by getchar() function which is responsible to read each bit as a
 #### - Writing Integers
 Cout is replaced by putchar() function which is responsible to write each number as a character.
 
-#### Writing Strings and Characters
+#### - Writing Strings and Characters
 Cout is replaced by putchar() function which is responsible to write each character char by char.
 
-#### Writing Floating Numbers
+#### - Writing Floating Numbers
 Cout is replaced by a printf function. If setprecision(number) method, is called all floating numbers will be written with "number" decimal places. However, this tool only supports one call of setprecision method.  
 
-#### Writing Booleans and Bitsets
+#### - Writing Booleans and Bitsets
 Cout is replaced by putchar() function which is responsible to write each bit as a character.
 
 The usage of std:: before a call and the usage of blank characters like tabs and spaces are supported.
