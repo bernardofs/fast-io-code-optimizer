@@ -55,7 +55,15 @@ The usage of std:: before a call and the usage of blank characters like tabs and
 * This tool doesn't work with multiple calls of setprecision function.
 * Multiline statements are not supported.
 
+## Results and Comparisons
 
+| | C++ | C++ (FAST IO) | C++11 | C++11 (FAST IO) | C++14 | C++14 (FAST IO) | C++17 | C++17 (FAST IO) |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| [Codeforces - Cloud of Hashtags](https://codeforces.com/problemset/problem/777/D) | - | - | [1029 ms](https://codeforces.com/contest/777/submission/50339133) | [46 ms](https://codeforces.com/contest/777/submission/50339821) |[1466 ms](https://codeforces.com/contest/777/submission/50339845) | [202 ms](https://codeforces.com/contest/777/submission/50339825) | [1528 ms](https://codeforces.com/contest/777/submission/50339847) | [187 ms](https://codeforces.com/contest/777/submission/50339831) |
+| [Codeforces - Stars Drawing (Hard Edition)](https://codeforces.com/contest/1015/problem/E2) | - | - | [2995 ms](https://codeforces.com/contest/1015/submission/50340528) | [451 ms](https://codeforces.com/contest/1015/submission/50340563) | [TLE](https://codeforces.com/contest/1015/submission/50340572) | [998 ms](https://codeforces.com/contest/1015/submission/50340578) | [TLE](https://codeforces.com/contest/1015/submission/50340600) | [997 ms](https://codeforces.com/contest/1015/submission/50340602)  |
+|   |       |                 |   |   |   |   |   |   |
+|   |       |                 |   |   |   |   |   |   |
+|   |       |                 |   |   |   |   |   |   |
 
 
 
