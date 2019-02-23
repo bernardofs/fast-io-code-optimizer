@@ -24,3 +24,5 @@ static struct FASTIO {
   template<std::size_t N> inline void WRITE_VAR(std::bitset<N> &bit); template<std::size_t N> inline void WRITE_BITSET(std::bitset<N> &bit);
 
 } FIO;
+
+

@@ -16,12 +16,12 @@ warningBackslashMessage = '''
 .... This software doesn\'t support multiline code .....
 ............. and may not work as expected ............
 .......................................................
-*\\
+*/
 
 '''  
 # if you do not want to print backslash warning in code 
 # uncomment the line below
-warningBackslashMessage = ''
+# warningBackslashMessage = ''
 
 warningSetPrecisionMessage = '''
 /*
@@ -30,13 +30,13 @@ warningSetPrecisionMessage = '''
 .. your code. This software doesn\'t support multiple ...
 ....... occurrences and may not work as expected .......
 ........................................................
-*\\
+*/
 
 '''
 
 # if you do not want to print setprecision warning in code 
 # uncomment the line below
-warningSetPrecisionMessage = ''
+# warningSetPrecisionMessage = ''
 
 
 
@@ -119,7 +119,7 @@ def replaceInput(text, cinEntries):
 		# delete cin from list
 		l.pop(0)
 		for y in l:
-			aux += 'FIO.READ_VAR(' + removeSpacesFromVar(y) + ')' + ', '
+			aux += '__FIO__.READ_VAR(' + removeSpacesFromVar(y) + ')' + ', '
 		aux = aux[:-2] + last
 		text = text.replace(pattern, aux)
 	return text
@@ -186,7 +186,7 @@ def replaceOutput(text, coutEntries):
 		l.pop(0)
 		# print (pattern)
 		for y in l:
-			aux += 'FIO.WRITE_VAR(' + removeSpacesFromVar(y) + ')' + ', '
+			aux += '__FIO__.WRITE_VAR(' + removeSpacesFromVar(y) + ')' + ', '
 		aux = aux[:-2] + last
 		text = text.replace(pattern, aux)
 
@@ -243,7 +243,7 @@ def getGetlineEntriesAndReplace(text):
 				i += 1
 			s += ')'
 			var = re.sub(' ', '', var)
-			text = text.replace(s, 'FIO.readGetline(' + var + ')')		
+			text = text.replace(s, '__FIO__.readGetline(' + var + ')')		
 	return text
 
 def undefMacros(text):
@@ -267,28 +267,28 @@ def replaceCinIgnore(text):
 	r = re.findall(r'(std[\s\t]*::[\s\t]*|)(cin[\s\t]*\.[\s\t]*ignore[\s\t]*\([\s\t]*\))', text)
 	for pattern in r:
 		pattern = joinTuple(pattern)
-		text = text.replace(pattern, 'FIO.ignore()')
+		text = text.replace(pattern, '__FIO__.ignore()')
 	return text
 
 def replaceOstream(text):
 	# replace cout.flush()
-	text = re.sub(r'(std[\s\t]*::[\s\t]*|)(cout[\s\t]*\.[\s\t]*flush[\s\t]*\([\s\t]*\))', 'FIO.flush()', text)
+	text = re.sub(r'(std[\s\t]*::[\s\t]*|)(cout[\s\t]*\.[\s\t]*flush[\s\t]*\([\s\t]*\))', '__FIO__.flush()', text)
 
 	#replace cout << flush
-	text = re.sub(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(flush\))', 'FIO.flush()', text)
+	text = re.sub(r'(__FIO__.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(flush\))', '__FIO__.flush()', text)
 
 	#replace cout << endl
-	text = re.sub(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(endl\))', "FIO.WRITE_VAR(endl)", text)
-	text = text.replace('FIO.WRITE_VAR(endl)', "putchar('\\n')")
+	text = re.sub(r'(__FIO__.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)(endl\))', "__FIO__.WRITE_VAR(endl)", text)
+	text = text.replace('__FIO__.WRITE_VAR(endl)', "putchar('\\n')")
 
 	return text
 
 def getAndSetPrecision(text):
 
 	# remove cout << fixed
-	text = re.sub(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*fixed[\s\t]*)(\))', '0', text)
+	text = re.sub(r'(__FIO__.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*fixed[\s\t]*)(\))', '0', text)
 
-	r = re.findall(r'(FIO.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*setprecision[\s\t]*\([\s\t]*)([0-9]*)([\s\t]*\)\))', text)
+	r = re.findall(r'(__FIO__.WRITE_VAR\()(std[\s\t]*::[\s\t]*|)([\s\t]*setprecision[\s\t]*\([\s\t]*)([0-9]*)([\s\t]*\)\))', text)
 	precision = ''
 	pattern = ''
 	if r:
@@ -340,7 +340,7 @@ code = replaceOstream(code)
 
 prototypes = (open("prototypes.cpp", "r")).read()
 code = prototypes + code
-code = "#include <bits/stdc++.h>\n\n" + code
+code = "#include <bits/stdc++.h>\n" + code
 code += (open("functions.cpp", "r")).read()
 
 code = findBackslash(code)
@@ -349,8 +349,9 @@ code = getAndSetPrecision(code)
 code = uncoverStrings(code)
 
 if printInFile:
-	fileName = 'FastIO - ' + fileName
-	file = open(fileName, 'w')
+	r = fileName.split('/')
+	newName = 'FastIO - ' + r[-1]
+	file = open(newName, 'w')
 	file.write(code)
 	file.close()
 
