@@ -59,7 +59,7 @@ The usage of std:: before a call and the usage of blank characters like tabs and
 * This tool only supports cin/cout commands
 * C++11 is faster than new versions
 
-## Results and Comparisons
+## Tests and Comparisons
 
 | | C++ | C++ (FAST IO) | C++11 | C++11 (FAST IO) | C++14 | C++14 (FAST IO) | C++17 | C++17 (FAST IO) |
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
