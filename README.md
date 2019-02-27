@@ -51,9 +51,13 @@ Cout is replaced by putchar() function which is responsible to write each bit as
 
 The usage of std:: before a call and the usage of blank characters like tabs and spaces are supported.
 
-## Important Restrictions 
+## Important Restrictions and Warnings
 * This tool doesn't work with multiple calls of setprecision function.
 * Multiline statements are not supported.
+* Custom istream is not supported
+* C++ (g++ 4.3.2) is not supported
+* This tool only supports cin/cout commands
+* C++11 is faster than new versions
 
 ## Results and Comparisons
 
