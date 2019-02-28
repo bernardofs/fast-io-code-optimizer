@@ -23,6 +23,8 @@ In order to optimize the code performance, text replacing was the approach chose
 
 ### Reading Variables
 
+All cin calls are replaced by READ_VAR function. It is a boolean funcion. It returns 0 if it reads EOF or returns 1 if it reads some content.
+
 #### - Reading Integers
 Cin is replaced by getchar() function which is responsible to read each number as a character and convert it to a number.
 
@@ -36,6 +38,8 @@ Cin is replaced by a scanf function.
 Cin is replaced by getchar() function which is responsible to read each bit as a character and convert it to a bit.
 
 ### Writing Variables
+
+All cout calls are replaced by WRITE_VAR function. It is a void function.
 
 #### - Writing Integers
 Cout is replaced by putchar() function which is responsible to write each number as a character.
