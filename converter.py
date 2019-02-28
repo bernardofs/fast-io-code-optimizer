@@ -58,6 +58,31 @@ def removeEnter(text):
 	text = text.replace(s, '')
 	return text
 
+def customSplit(text, div):
+	l = []
+	bra, par = 0, 0
+	acc, i = '', 0
+	while i < len(text):
+		if i + len(div) <= len(text):
+			if text[i : i + len(div)] == div and par == 0 and bra == 0:
+				l.append(acc)
+				acc = ''
+				i += len(div)
+				continue
+		if text[i] == '(':
+			par += 1
+		elif text[i] == ')':
+			par -= 1
+		elif text[i] == '[':
+			bra += 1
+		elif text[i] == ']':
+			bra -= 1
+		acc += text[i]
+		i += 1
+	l.append(acc)
+	return l
+
+
 def removeSpacesFromVar(name):
 	
 	i = 0
@@ -153,6 +178,23 @@ def getCoutEntries(text):
 			ret.append(s)				
 	return ret
 
+def replaceOutput(text, coutEntries):
+	for pattern in coutEntries:
+		aux = ''
+		last = pattern[-1]
+		# delete semicolon (;) or comma (,) from line
+		x = pattern[:-1]
+		l = customSplit(x, '<<')
+		# delete cout from list
+		l.pop(0)
+		# print (pattern)
+		for y in l:
+			aux += '__FIO__.WRITE_VAR(' + removeSpacesFromVar(y) + ')' + ', '
+		aux = aux[:-2] + last
+		text = text.replace(pattern, aux)
+
+	return text
+
 
 def removeDeSync(text):
 	r = []
@@ -169,23 +211,6 @@ def removeDeSync(text):
 
 	return text
 
-
-def replaceOutput(text, coutEntries):
-	for pattern in coutEntries:
-		aux = ''
-		last = pattern[-1]
-		# delete semicolon (;) or comma (,) from line
-		x = pattern[:-1]
-		l = x.split('<<')
-		# delete cout from list
-		l.pop(0)
-		# print (pattern)
-		for y in l:
-			aux += '__FIO__.WRITE_VAR(' + removeSpacesFromVar(y) + ')' + ', '
-		aux = aux[:-2] + last
-		text = text.replace(pattern, aux)
-
-	return text
 
 def getGetlineEntriesAndReplace(text):
 	r = re.findall(r'getline[\s\t]*\([^;{}\n]*[;{}\n]', text)
