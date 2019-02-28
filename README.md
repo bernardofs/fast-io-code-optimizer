@@ -51,11 +51,24 @@ Cout is replaced by putchar() function which is responsible to write each bit as
 
 The usage of std:: before a call and the usage of blank characters like tabs and spaces are supported.
 
-## Important Restrictions 
+## Important Restrictions and Warnings
 * This tool doesn't work with multiple calls of setprecision function.
 * Multiline statements are not supported.
+* Custom istream is not supported
+* C++ (g++ 4.3.2) is not supported
+* This tool only supports cin/cout commands
+* C++11 is faster than new versions
 
+## Tests and Comparisons
 
+| | C++ | C++ (FAST IO) | C++11 | C++11 (FAST IO) | C++14 | C++14 (FAST IO) | C++17 | C++17 (FAST IO) |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| [Codeforces - Cloud of Hashtags](https://codeforces.com/problemset/problem/777/D) | - | - | [1029 ms](https://codeforces.com/contest/777/submission/50339133) | [46 ms](https://codeforces.com/contest/777/submission/50339821) |[1466 ms](https://codeforces.com/contest/777/submission/50339845) | [202 ms](https://codeforces.com/contest/777/submission/50339825) | [1528 ms](https://codeforces.com/contest/777/submission/50339847) | [187 ms](https://codeforces.com/contest/777/submission/50339831) |
+| [Codeforces - Stars Drawing (Hard Edition)](https://codeforces.com/contest/1015/problem/E2) | - | - | [2995 ms](https://codeforces.com/contest/1015/submission/50340528) | [451 ms](https://codeforces.com/contest/1015/submission/50340563) | [TLE](https://codeforces.com/contest/1015/submission/50340572) | [998 ms](https://codeforces.com/contest/1015/submission/50340578) | [TLE](https://codeforces.com/contest/1015/submission/50340600) | [997 ms](https://codeforces.com/contest/1015/submission/50340602)  |
+| [URI - Man, Elephant and Mouse](https://www.urionlinejudge.com.br/judge/en/problems/view/1477) | - | - | 1768 ms | 660 ms | - | - | 1780 ms | 728 ms |
+| [URI - Plantation](https://www.urionlinejudge.com.br/judge/en/problems/view/2772) | - | - | 732 ms | 680 ms | - | - | 952 ms | 896 ms |
+| [SPOJ - Binary search](https://www.spoj.com/problems/BSEARCH1/) | TLE | 110 ms | - | - | TLE | 110 ms | - | - |
+| [SPOJ - Factorial vs Power](https://www.spoj.com/problems/FACVSPOW/) | 200 ms | 110 ms | - | - | 210 ms | 110 ms | - | - |
 
 
 
