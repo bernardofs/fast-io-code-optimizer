@@ -1,13 +1,4 @@
 import re
-import sys
-
-# if you do not want to print the code in terminal set 
-# the variable to false
-printInTerminal = True
-
-# if you do not want to print the code in a new file
-# set the variable below to false
-printInFile = True
 
 warningBackslashMessage = '''
 /*
@@ -40,7 +31,6 @@ warningSetPrecisionMessage = '''
 
 
 
-
 definedStrings = {}
 
 def joinTuple(tuple):
@@ -61,6 +51,11 @@ def uncoverStrings(text):
 	for key, value in definedStrings.items():
 		text = text.replace('¿¿¿¿¿' + str(key) + '¿¿¿¿¿', value)
 
+	return text
+
+def removeEnter(text):
+	s = str(chr(13))
+	text = text.replace(s, '')
 	return text
 
 def removeSpacesFromVar(name):
@@ -310,50 +305,33 @@ def findBackslash(text):
 
 	return text
 
-fileName = ''
-if len(sys.argv) == 2:
-	fileName = sys.argv[1]
-else:
-	fileName = input('Type the name of the file\n')
 
-while True:
-	try:
-		code = open(fileName, "r").read()
-		break
-	except:	
-		fileName = input('File not found, try again\n')
+def convertToFastIO(code):
 
+	code = removeEnter(code)
+	code = coverStrings(code)
+	code = removeDeSync(code)
+	code = undefMacros(code)
+	code = getGetlineEntriesAndReplace(code)
+	code = replaceCinIgnore(code)
 
-code = coverStrings(code)
-code = removeDeSync(code)
-code = undefMacros(code)
-code = getGetlineEntriesAndReplace(code)
-code = replaceCinIgnore(code)
+	x = getCinEntries(code)
+	code = (replaceInput(code, x))
 
-x = getCinEntries(code)
-code = (replaceInput(code, x))
+	x = getCoutEntries(code)
+	code = (replaceOutput(code, x))
 
-x = getCoutEntries(code)
-code = (replaceOutput(code, x))
+	code = replaceOstream(code)
 
-code = replaceOstream(code)
+	struct = (open("struct.cpp", "r")).read()
+	code = struct + code
+	code = "#include <bits/stdc++.h>\n" + code
+	code += (open("functions.cpp", "r")).read()
 
-prototypes = (open("prototypes.cpp", "r")).read()
-code = prototypes + code
-code = "#include <bits/stdc++.h>\n" + code
-code += (open("functions.cpp", "r")).read()
+	code = findBackslash(code)
+	code = getAndSetPrecision(code)
 
-code = findBackslash(code)
-code = getAndSetPrecision(code)
+	code = uncoverStrings(code)
 
-code = uncoverStrings(code)
+	return code
 
-if printInFile:
-	r = fileName.split('/')
-	newName = 'FastIO - ' + r[-1]
-	file = open(newName, 'w')
-	file.write(code)
-	file.close()
-
-if printInTerminal:
-	print (code)
