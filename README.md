@@ -49,7 +49,7 @@ Cout is replaced by a printf function. If setprecision(number) method is called,
 #### - Writing Booleans and Bitsets
 Cout is replaced by putchar() function which is responsible to write each bit as a character.
 
-The usage of std:: before a call and the usage of blank characters like tabs and spaces are supported.
+\* The usage of std:: before a call and the usage of blank characters like tabs and spaces are supported.
 
 ## Important Restrictions and Warnings
 * This tool doesn't work with multiple calls of setprecision function.
