@@ -57,7 +57,7 @@ The usage of std:: before a call and the usage of blank characters like tabs and
 * Custom istream is not supported
 * C++ (g++ 4.3.2) is not supported
 * This tool only supports cin/cout commands
-* C++11 is faster than new versions
+* C++11 is faster than newer versions
 
 ## Tests and Comparisons
 
