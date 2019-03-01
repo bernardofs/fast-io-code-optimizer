@@ -263,7 +263,7 @@ def getGetlineEntriesAndReplace(text):
 				i += 1
 			s += ')'
 			var = re.sub(' ', '', var)
-			text = text.replace(s, '__FIO__.readGetline(' + var + ')')		
+			text = text.replace(s, '__FIO__.READ_GETLINE(' + var + ')')		
 	return text
 
 def undefMacros(text):
