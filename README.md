@@ -75,8 +75,18 @@ Cout is replaced by putchar() function which is responsible to write each bit as
 | [SPOJ - Binary search](https://www.spoj.com/problems/BSEARCH1/) | TLE | 110 ms | - | - | TLE | 110 ms | - | - |
 | [SPOJ - Factorial vs Power](https://www.spoj.com/problems/FACVSPOW/) | 200 ms | 110 ms | - | - | 210 ms | 110 ms | - | - |
 
+## How to use
 
+### Website: [fastio.pythonanywhere.com/](http://fastio.pythonanywhere.com/)
+After accessing the website, it is needed to insert the code to be optimized in the text field from the left, then click the button Optimize it and it's done, the optimized code will be pasted in the text field from the right.
 
+### Offline tool
+Download the project and execute the file in terminal. To execute it just type the following.
+```shell
+python3 fastio.py nameOfFile.cpp
+```
+After that, it will be generated a new file named FastIO-nameOfFile.cpp in project's directory and the converted code will be printed in terminal.
+If the user do not want to create a new file or print the code in terminal, he only needs to go to fastio.py file and modify the variables printInTerminal and printInFile.
 
 
 
