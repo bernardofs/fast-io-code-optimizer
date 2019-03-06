@@ -5,10 +5,14 @@ static struct FASTIO {
 
   inline void ignore(); inline void flush();
 
-  template <typename T> inline bool READ_INT(T &x); template <typename T> inline bool READ_STRING(T &x); 
+  template <typename T> inline bool READ_INT(T &x); template <typename T> inline bool READ_STRING(T &x);
+  /*                                                          Fast I/O Code Optimizer                                                          */
   template<size_t N> inline bool READ_CHAR_ARRAY(char (&x)[N]); template<size_t N> inline bool READ_VAR(char (&x)[N]);
+  /*                    A tool to optimize execution time of C++ codes by replacing methods of reading and writing variables                   */
   template <typename T> inline bool READ_CHAR(T &x); inline bool READ_CHAR_ARRAY(char*& x); inline bool READ_GETLINE(std::string &x);
+  /*                                                    Use it on fastio.pythonanywhere.com                                                    */
   template <typename T> inline bool READ_FLOAT(T &x); template <typename T> inline bool READ_DOUBLE(T &x);
+  /*                                          Github Project: github.com/bfs07/Fast-IO-Code-Optimizer                                          */
   template<std::size_t N> inline bool READ_BITSET(std::bitset<N> &bit); template<std::size_t N> inline bool READ_VAR(std::bitset<N> &bit);
   inline bool READ_VAR(bool &x); inline bool READ_VAR(short int &x); inline bool READ_VAR(int &x); 
   inline bool READ_VAR(long int &x); inline bool READ_VAR(long long int &x); inline bool READ_VAR(unsigned short int &x);
