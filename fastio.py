@@ -26,7 +26,7 @@ code = converter.convertToFastIO(code)
 
 if printInFile:
 	r = fileName.split('/')
-	newName = 'FastIO - ' + r[-1]
+	newName = 'FastIO-' + r[-1]
 	file = open(newName, 'w')
 	file.write(code)
 	file.close()
