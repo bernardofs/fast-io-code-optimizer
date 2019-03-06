@@ -4,6 +4,19 @@ A tool developed in Python to optimize execution time of C++ codes by replacing 
 ## Motivation
 Some competitive programming problems have a tight time limit.  Then, when someone submits a solution, even with the expected complexity, it may get a time limit exceeded verdict. Occasionally, the problem requires Fast I/O methods to speed up the execution time and is very hard to get accepted verdict without making this type of optimization. Consequently, it is needed to replace all default C++ reading and writing methods (cin/cout) to faster approaches.  This tool makes very easy the task of replacing the way of reading and writing variables, and it uses very fast methods which would take very long to type and wouldn't be so efficient.
 
+## How to use
+
+### Website: [fastio.pythonanywhere.com/](http://fastio.pythonanywhere.com/)
+After accessing the website, it is needed to insert the code to be optimized in the text field from the left, then click the button Optimize it and it's done, the optimized code will be pasted in the text field from the right.
+
+### Offline tool
+Download the project and execute the file in terminal. To execute it just type the following.
+```shell
+python3 fastio.py nameOfFile.cpp
+```
+After that, it will be generated a new file named FastIO-nameOfFile.cpp in project's directory and the converted code will be printed in terminal.
+If the user do not want to create a new file or print the code in terminal, he only needs to go to fastio.py file and modify the variables printInTerminal and printInFile.
+
 ## Functions and Commands
 
 ### To Be Replaced 
@@ -74,19 +87,3 @@ Cout is replaced by putchar() function which is responsible to write each bit as
 | [URI - Plantation](https://www.urionlinejudge.com.br/judge/en/problems/view/2772) | - | - | 732 ms | 680 ms | - | - | 952 ms | 896 ms |
 | [SPOJ - Binary search](https://www.spoj.com/problems/BSEARCH1/) | TLE | 110 ms | - | - | TLE | 110 ms | - | - |
 | [SPOJ - Factorial vs Power](https://www.spoj.com/problems/FACVSPOW/) | 200 ms | 110 ms | - | - | 210 ms | 110 ms | - | - |
-
-## How to use
-
-### Website: [fastio.pythonanywhere.com/](http://fastio.pythonanywhere.com/)
-After accessing the website, it is needed to insert the code to be optimized in the text field from the left, then click the button Optimize it and it's done, the optimized code will be pasted in the text field from the right.
-
-### Offline tool
-Download the project and execute the file in terminal. To execute it just type the following.
-```shell
-python3 fastio.py nameOfFile.cpp
-```
-After that, it will be generated a new file named FastIO-nameOfFile.cpp in project's directory and the converted code will be printed in terminal.
-If the user do not want to create a new file or print the code in terminal, he only needs to go to fastio.py file and modify the variables printInTerminal and printInFile.
-
-
-
