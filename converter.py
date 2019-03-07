@@ -330,7 +330,7 @@ def findBackslash(text):
 
 	return text
 
-# Code copied from stack overflow
+# Function below copied from StackOverflow
 # Link to original question: https://stackoverflow.com/questions/241327/python-snippet-to-remove-c-and-c-comments
 # Author of the question: TomZ (https://stackoverflow.com/users/26251/tomz)
 # Author of the answer: Markus Jarderot (https://stackoverflow.com/users/22364/markus-jarderot)
