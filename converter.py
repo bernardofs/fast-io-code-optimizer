@@ -330,9 +330,26 @@ def findBackslash(text):
 
 	return text
 
+# Code copied from stack overflow
+# Link to original question: https://stackoverflow.com/questions/241327/python-snippet-to-remove-c-and-c-comments
+# Author of the question: TomZ (https://stackoverflow.com/users/26251/tomz)
+# Author of the answer: Markus Jarderot (https://stackoverflow.com/users/22364/markus-jarderot)
+def comment_remover(text):
+    def replacer(match):
+        s = match.group(0)
+        if s.startswith('/'):
+            return " " # note: a space and not an empty string
+        else:
+            return s
+    pattern = re.compile(
+        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"',
+        re.DOTALL | re.MULTILINE
+    )
+    return re.sub(pattern, replacer, text)
 
 def convertToFastIO(code):
 
+	code = comment_remover(code)
 	code = removeEnter(code)
 	code = coverStrings(code)
 	code = removeDeSync(code)
