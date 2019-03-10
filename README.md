@@ -35,7 +35,7 @@ If the user do not want to create a new file or print the code in terminal, he o
 * This tool doesn't work with multiple calls of setprecision function.
 * Multiline statements are not supported.
 * Custom istream is not supported.
-* C++ (g++ 4.3.2) and earlier are not supported.
+* C++ (g++ 4.3.2) and past versions are not supported.
 * This tool only supports cin/cout commands.
 * C++11 is faster than newer versions.
 
