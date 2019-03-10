@@ -34,10 +34,10 @@ If the user do not want to create a new file or print the code in terminal, he o
 ## Important Restrictions and Warnings
 * This tool doesn't work with multiple calls of setprecision function.
 * Multiline statements are not supported.
-* Custom istream is not supported
-* C++ (g++ 4.3.2) is not supported
-* This tool only supports cin/cout commands
-* C++11 is faster than newer versions
+* Custom istream is not supported.
+* C++ (g++ 4.3.2) and earlier are not supported.
+* This tool only supports cin/cout commands.
+* C++11 is faster than newer versions.
 
 ## Implementation
 In order to optimize the code performance, text replacing was the approach chosen. This tool finds all occurrences of cin/cout commands and replaces them with functions. Important auxiliaries commands also are supported and will be described later. Most of the implementation consists of finding patterns in text using regular expressions, and this is very useful to avoid blank characters. Because of the best compatibility with methods applied, Python was the language chosen. There are other approaches available to make the same optimization, but this one was chosen by reason of it is possible to modify easier all commands without creating some specific modification to a certain command. Besides that, it is possible to add support to a big range of things like the use of different namespaces.
