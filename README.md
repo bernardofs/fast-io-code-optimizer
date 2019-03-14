@@ -14,7 +14,7 @@ Download the project and execute the file in terminal. To execute it just type t
 ```shell
 python3 fastio.py nameOfFile.cpp
 ```
-After that, it will be generated a new file named FastIO-nameOfFile.cpp in project's directory and the converted code will be printed in terminal.
+After that, it will be generated a new file named `FastIO-nameOfFile.cpp` in project's directory and the converted code will be printed in terminal.
 If the user do not want to create a new file or print the code in terminal, he only needs to go to fastio.py file and modify the variables printInTerminal and printInFile.
 
 ## Functions and Commands
